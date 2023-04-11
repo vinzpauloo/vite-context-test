@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useRef, useEffect } from "react";
 import { Box, Typography, Button, TextField } from "@mui/material";
 
 interface LoginFormProps {
@@ -8,6 +8,8 @@ interface LoginFormProps {
 const Login = ({ onAuthentication }: LoginFormProps) => {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
+
+  const inputRef = useRef<any | null>(null);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -21,12 +23,17 @@ const Login = ({ onAuthentication }: LoginFormProps) => {
     }
   };
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
     <Box>
       <form onSubmit={handleSubmit}>
         <Box>
           <Typography>Username:</Typography>
           <TextField
+            inputRef={inputRef}
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
